@@ -8,6 +8,7 @@ const passport = require("passport");
 
 
 const { body, validationResult } = require("express-validator");
+const { render } = require('../app');
 
 
 /* GET home page. */
@@ -103,5 +104,34 @@ router.get('/logout', function(req, res, next) {
     res.redirect('/posts');
   })
 })
+
+router.get('/membership', async function(req, res, next) {
+  const member = await Member.findById(req.user.id);
+  if (member.membership) {
+    res.render("membership", {member: true})
+  }
+  res.render("membership")
+})
+
+router.post('/membership', [
+  body("key")
+    .trim()
+    .escape(),
+
+  async function(req, res, next) {
+    if (req.body.key === 'knicks99') {
+      console.log(req.user)
+      const member = await Member.findById(req.user.id);
+      member.membership = true;
+      await member.save();
+      res.render('membership', {member: true});
+    }
+    else {
+      res.render('membership', {key: req.body.key})
+    }
+  
+  }
+  ]
+)
 
 module.exports = router;

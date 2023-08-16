@@ -1,0 +1,17 @@
+extends layout
+
+block content
+    if member 
+        h1.login You are a member. Enjoy.
+    else
+        h1.login Enter Membership Key
+        form.signup-form(action="/membership", method="POST")
+            label(for="key") Key:
+            input(type="password", id="key", name="key", value=(key === undefined? "" : key), required)
+            br
+
+            button(type="submit") Gain Access
+        if key
+            ul 
+                li Wrong key
+

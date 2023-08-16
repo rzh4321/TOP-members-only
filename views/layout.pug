@@ -4,14 +4,17 @@ html
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
-    div.navbar
-      div
-        a(href="/posts") Home 
+    div.navbar 
       if user === undefined
+        div
+          a(href="/posts") Home
         div
           a(href="/login") Log in
           a(href="/signup") Sign up
       else
+        div
+          a(href="/posts") Home
+          a(href="/membership") Membership
         div
           a(href="/members/${user.id}") Profile
           a(href="/logout") Logout
