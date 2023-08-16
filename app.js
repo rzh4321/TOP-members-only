@@ -8,6 +8,7 @@ require('dotenv').config(); // Load environment variables from .env file
 
 
 var indexRouter = require('./routes/index');
+const postsRouter = require('./routes/posts');
 var usersRouter = require('./routes/users');
 
 
@@ -31,6 +32,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/posts', postsRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
