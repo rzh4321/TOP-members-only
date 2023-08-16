@@ -8,7 +8,6 @@ const passport = require("passport");
 
 
 const { body, validationResult } = require("express-validator");
-const { render } = require('../app');
 
 
 /* GET home page. */
@@ -108,9 +107,11 @@ router.get('/logout', function(req, res, next) {
 router.get('/membership', async function(req, res, next) {
   const member = await Member.findById(req.user.id);
   if (member.membership) {
-    res.render("membership", {member: true})
+    res.render("membership", {member: true, user: req.user})
   }
-  res.render("membership")
+  else {
+    res.render("membership", {user: req.user})
+  }
 })
 
 router.post('/membership', [
@@ -124,10 +125,10 @@ router.post('/membership', [
       const member = await Member.findById(req.user.id);
       member.membership = true;
       await member.save();
-      res.render('membership', {member: true});
+      res.render('membership', {member: true, user: req.user});
     }
     else {
-      res.render('membership', {key: req.body.key})
+      res.render('membership', {key: req.body.key, user: req.user})
     }
   
   }

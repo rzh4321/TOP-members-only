@@ -1,5 +1,17 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  div.post-page
+    a.create-post(href="/posts/create") + Create Post
+    ul.post-list
+      each post in allPosts
+        li.post
+          h2=post.title
+          if user && user.membership
+            p.member Written by #{post.member.username}
+          else 
+            p.member #[strong You must become a member to see usernames]
+
+          p.timestamp Posted on #{post.formattedTimestamp}
+          p.description #{post.description}
+
