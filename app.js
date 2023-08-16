@@ -10,6 +10,7 @@ const bcrypt = require("bcryptjs");
 const LocalStrategy = require("passport-local").Strategy;
 require('dotenv').config(); // Load environment variables from .env file
 
+const Member = require("./models/member");
 
 var indexRouter = require('./routes/index');
 const postsRouter = require('./routes/posts');
@@ -32,16 +33,16 @@ app.use(session({ secret: process.env.SECRET, resave: false, saveUninitialized: 
 passport.use(
   new LocalStrategy(async(username, password, done) => {
     try {
-      const user = await User.findOne({ username: username });
-      if (!user) {
-        return done(null, false, { message: "Incorrect username" });
+      const member = await Member.findOne({ username: username });
+      if (!member) {
+        return done(null, false, { message: "Username does not exist" });
       };
-      const match = await bcrypt.compare(password, user.password);
+      const match = await bcrypt.compare(password, member.password);
       if (!match) {
           // passwords do not match!
           return done(null, false, { message: "Incorrect password" })
       }
-      return done(null, user);
+      return done(null, member);
     } catch(err) {
       return done(err);
     };
@@ -54,7 +55,7 @@ passport.serializeUser(function(user, done) {
 
 passport.deserializeUser(async function(id, done) {
   try {
-    const user = await User.findById(id);
+    const user = await Member.findById(id);
     done(null, user);
   } catch(err) {
     done(err);

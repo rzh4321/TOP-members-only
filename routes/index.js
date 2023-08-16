@@ -3,6 +3,8 @@ var router = express.Router();
 const asyncHandler = require('express-async-handler');
 const Member = require('../models/member');
 const bcrypt = require("bcryptjs");
+const passport = require("passport");
+
 
 
 const { body, validationResult } = require("express-validator");
@@ -32,6 +34,14 @@ router.post('/signup', [
     .trim()
     .isLength({min: 4})
     .withMessage("Username must be at least 4 characters")
+    .custom(async (value, {req}) => {
+      const regex = new RegExp(req.body.username, "i");
+      const exists = await Member.findOne({username: { $regex: regex}})
+      if (exists) {
+        throw new Error("Username already taken");
+      }
+      return true;
+    })
     .escape(),
   body("password")
     .trim()
@@ -66,7 +76,32 @@ router.post('/signup', [
       res.redirect("/posts");
     }
   })
-
 ]);
+
+router.get('/login', function(req, res, next) {
+  res.render("login");
+});
+
+router.get('/login-error', function(req, res, next) {
+  res.render("login", {failure: req.session.messages[req.session.messages.length-1]});
+});
+
+router.post(
+  "/login",
+    passport.authenticate("local", {
+      failureMessage: true,
+      successRedirect: "/posts",
+      failureRedirect: "/login-error"
+  }
+));
+
+router.get('/logout', function(req, res, next) {
+  req.logout(function (err) {
+    if (err) {
+      return next(err);
+    }
+    res.redirect('/posts');
+  })
+})
 
 module.exports = router;

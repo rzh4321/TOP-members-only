@@ -5,13 +5,13 @@ html
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
     div.navbar
+      div
+        a(href="/posts") Home 
       if user === undefined
-        span Members Only
         div
           a(href="/login") Log in
           a(href="/signup") Sign up
       else
-        span Welcome, ${user.fullName}
         div
           a(href="/members/${user.id}") Profile
           a(href="/logout") Logout
