@@ -16,6 +16,6 @@ html
           a(href="/posts") Home
           a(href="/membership") Membership
         div
-          a(href="/members/${user.id}") Profile
+          a(href=user.url) Profile
           a(href="/logout") Logout
     block content

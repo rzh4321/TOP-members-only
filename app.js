@@ -12,12 +12,12 @@ require('dotenv').config(); // Load environment variables from .env file
 
 const Member = require("./models/member");
 
-var indexRouter = require('./routes/index');
+const indexRouter = require('./routes/index');
 const postsRouter = require('./routes/posts');
-var usersRouter = require('./routes/users');
+const membersRouter = require('./routes/members');
 
 
-var app = express();
+const app = express();
 mongoose.set("strictQuery", false);
 const mongoDB = process.env.MONGODB_URL;
 main().catch((err) => console.log(err));
@@ -33,7 +33,8 @@ app.use(session({ secret: process.env.SECRET, resave: false, saveUninitialized: 
 passport.use(
   new LocalStrategy(async(username, password, done) => {
     try {
-      const member = await Member.findOne({ username: username });
+      const regex = new RegExp(username, "i");
+      const member = await Member.findOne({ username: {$regex: regex} });
       if (!member) {
         return done(null, false, { message: "Username does not exist" });
       };
@@ -73,7 +74,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/members', membersRouter);
 app.use('/posts', postsRouter);
 
 

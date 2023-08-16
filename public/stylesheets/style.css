@@ -14,7 +14,7 @@ a {
   justify-content: space-between;
   gap: 20px;
   font-size: 1.2rem;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .navbar a {
@@ -136,5 +136,42 @@ textarea {
 .post-page {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
+}
+
+.buttons, .member-details {
+  display: flex;
+  gap: 10px;
+  padding: 0;
+  margin: 0;
+}
+
+.user-list {
+  list-style: none;
+  padding: 0;
+}
+
+.user-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  padding: 10px;
+}
+
+.username {
+  font-weight: bold;
+}
+
+.full-name {
+  margin-left: 10px;
+}
+
+.admin {
+  color: #f00;
+  font-style: italic;
+}
+
+.member-details {
+  font-size: 40px;
 }

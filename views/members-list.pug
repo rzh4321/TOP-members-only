@@ -1,0 +1,16 @@
+extends layout
+
+block content
+    h1 Members List
+        if user.membership
+            ul.user-list
+            each user in members
+                li.user-item
+                a.username(href=user.url) #{user.username}
+                span.full-name= "(" + user.firstName + ' ' + user.lastName + ")"
+                if user.admin
+                    span.admin  Admin
+                else
+                    span.admin  Regular User
+        else 
+            h1 You must become a member to see members list

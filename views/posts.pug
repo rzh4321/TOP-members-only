@@ -2,13 +2,16 @@ extends layout
 
 block content
   div.post-page
-    a.create-post(href="/posts/create") + Create Post
+    div.buttons
+      a.create-post(href="/posts/create") + Create Post
+      a.create-post(href="/members") Members List
     ul.post-list
       each post in allPosts
         li.post
           h2=post.title
           if user && user.membership
-            p.member Written by #{post.member.username}
+            p.member Written by 
+              a(href=user.url) #{post.member.username}
           else 
             p.member #[strong You must become a member to see usernames]
 
