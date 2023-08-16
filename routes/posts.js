@@ -11,6 +11,7 @@ const { body, validationResult } = require("express-validator");
 /* GET users listing. */
 router.get('/', asyncHandler(async(req, res, next) => {
     const allPosts = await Post.find().populate("member");
+    allPosts.sort((a, b) => b.timestamp - a.timestamp);
     res.render("posts", {allPosts: allPosts, user: req.user});
 }));
 
@@ -19,7 +20,7 @@ router.get('/create', asyncHandler(async(req, res, next) => {
         res.redirect("/login")
     }
     else {
-        res.render("create-post");
+        res.render("create-post", {user: req.user});
     }
 }));
 
@@ -50,5 +51,10 @@ router.post('/create', [
     }
     ]
   )
+
+router.get('/:id/delete', asyncHandler(async(req, res, next) => {
+    const post = await Post.deleteOne({ _id: req.params.id });
+    res.redirect('/posts');
+}));
 
 module.exports = router;

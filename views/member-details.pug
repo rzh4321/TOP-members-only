@@ -15,3 +15,8 @@ block content
           p.timestamp Posted on #{post.formattedTimestamp}
           p.description #{post.description}
 
+          a.delete(href=post.url) Delete Post
+
+    if posts.length === 0
+        h1 No posts
+

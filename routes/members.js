@@ -18,8 +18,12 @@ router.get('/', asyncHandler(async (req, res, next) => {
 }));
 
 router.get('/:id', asyncHandler(async (req, res, next) => {
-  const posts = await Post.find({member: req.params.id})
-  res.render("member-details", {user: req.user, posts})
+  if (req.user === undefined) res.redirect("/posts");
+  else {
+    const posts = await Post.find({member: req.params.id})
+    posts.sort((a, b) => b.timestamp - a.timestamp);
+    res.render("member-details", {user: req.user, posts})
+  }
 }));
 
 module.exports = router;

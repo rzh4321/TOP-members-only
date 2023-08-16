@@ -11,7 +11,7 @@ const postSchema = new Schema({
 });
 
 postSchema.virtual("url").get(function () {
-    return `/posts/${this._id}`;
+    return `/posts/${this._id}/delete`;
 });
 
 postSchema.virtual("formattedTimestamp").get(function () {

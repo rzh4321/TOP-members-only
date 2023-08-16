@@ -175,3 +175,14 @@ textarea {
 .member-details {
   font-size: 40px;
 }
+
+.delete {
+  padding: 5px;
+  background-color: red;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  align-self: flex-start;
+  font-size: 10px;
+}
