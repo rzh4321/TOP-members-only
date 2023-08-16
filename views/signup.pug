@@ -1,0 +1,40 @@
+extends layout
+
+block content
+  h1 Sign Up
+  form.signup-form(action="/signup", method="POST")
+    label(for="firstName") First Name:
+    input(type="text", id="firstName", name="firstName", 
+      value=(member===undefined? "" : member.firstName), required)
+    br
+
+    label(for="lastName") Last Name:
+    input(type="text", id="lastName", name="lastName",
+      value=(member===undefined? "" : member.lastName), required)
+    br
+
+    label(for="username") Username:
+    input(type="text", id="username", name="username",
+      value=(member===undefined? "" : member.username), required)
+    br
+
+    label(for="password") Password:
+    input(type="password", id="password", name="password",
+      value=(member===undefined? "" : pw), required)
+    br
+
+    label(for="confirmPassword") Confirm Password:
+    input(type="password", id="confirmPassword", name="confirmPassword",
+      value=(member===undefined? "" : confirm), required)
+    br
+
+    label(for="isAdmin" id="isAdminLabel") Admin?
+    input(type="checkbox" id="isAdmin" name="isAdmin", 
+      value=true, checked=(member===undefined? false : member.admin))
+
+    button(type="submit") Sign Up
+
+  if errors
+    ul
+      for error in errors
+        li!= error.msg

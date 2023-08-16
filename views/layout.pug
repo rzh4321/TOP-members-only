@@ -5,6 +5,14 @@ html
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
     div.navbar
-      a(href="/login") Log in
-      a(href="/signup") Sign up
+      if user === undefined
+        span Members Only
+        div
+          a(href="/login") Log in
+          a(href="/signup") Sign up
+      else
+        span Welcome, ${user.fullName}
+        div
+          a(href="/members/${user.id}") Profile
+          a(href="/logout") Logout
     block content
